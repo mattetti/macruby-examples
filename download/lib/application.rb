@@ -2,7 +2,7 @@ require 'hotcocoa'
 include HotCocoa
 
 # Progres bar mapping for HotCocoa
-require File.dirname(__FILE__) + "/progression_bar"
+require File.dirname(__FILE__) + "/progress_indicator"
 TEXT_FILE = "http://www.gutenberg.org/files/4300/4300.txt"
 
 class Application
@@ -14,9 +14,9 @@ class Application
         win <<  label(:text => "Cocoa made easy! Example by Matt Aimonetti", :layout => {:start => false})
         @status = label(:text => "downloading remote data", :layout => {:start => false}, :frame => [0, 0, 300, 20])
         win <<  @status
-        win << @progress_bar = progress_bar
+        win << @progress_bar = progress_indicator
         
-        # Setup a scroll view containing a text view which will store the downloaded data
+        # Setup a scroll view containing a text view which will display the downloaded data
         @scroll_view = scroll_view(:frame => [0,0,495,300], :layout => {:expand => [:height, :width]})
         @text_view = text_view(:frame => [0,0,490,300])
         @scroll_view.document_view = @text_view
@@ -37,6 +37,8 @@ class Application
   # Returns a proc that is being called by the reload button
   def reload_data
     Proc.new { 
+      # Change the progress bar_style
+      @progress_bar.style = :spinning
       initiate_request(TEXT_FILE, self)
       @reload_button.hidden = true 
       @text_view.string = " Reloading..."

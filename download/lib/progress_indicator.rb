@@ -8,7 +8,7 @@
 #
 
 
-HotCocoa::Mappings.map :progress_bar => :NSProgressIndicator do
+HotCocoa::Mappings.map :progress_indicator => :NSProgressIndicator do
 
   defaults :layout => {}, :frame => [0,0,250,20]
   
@@ -45,6 +45,22 @@ HotCocoa::Mappings.map :progress_bar => :NSProgressIndicator do
     
     def reset
       setDoubleValue(0.0)
+    end
+    
+    def style=(style_name)
+      if style_name == :spinning
+        setStyle(NSProgressIndicatorSpinningStyle)
+      else
+        setStyle(NSProgressIndicatorBarStyle)
+      end
+    end
+    
+    def spinning_style
+      setStyle(NSProgressIndicatorSpinningStyle)
+    end
+    
+    def bar_style
+      setStyle(NSProgressIndicatorBarStyle)
     end
     
   end
